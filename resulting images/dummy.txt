@@ -1,0 +1,1 @@
+I'm just putting this file here to force git to make a "resulting images" folder. You may ignore this file.

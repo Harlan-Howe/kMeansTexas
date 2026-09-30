@@ -74,7 +74,7 @@ class Display(pyglet.window.Window):
         self.spr = pyglet.sprite.Sprite(self.texas_image, x=0, y=0, batch=batch, group=self.background_group)
         self.spr.scale = SCALE
         # draw all the dots
-        self.circles_list = []
+        self.circles_list:List[shapes.Circle] = []
 
         for i in range(len(self.city_colors)):
             self.circles_list.append(shapes.Circle(x=self.city_coords[i][0]*SCALE,
@@ -85,7 +85,7 @@ class Display(pyglet.window.Window):
                                    group = self.foreground_group))
 
         # OK. Time to draw stars....
-        self.star_list = []
+        self.star_list:List[shapes.ShapeBase] = []
         # first, draw the trail of old stars, if any.
         """
         # Draws previous stars along the path (optional)

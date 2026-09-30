@@ -6,7 +6,7 @@ import csv
 from DisplayFile import Display
 from ZipCodeItemFile import ZipcodeItem
 
-k = 5
+k = 8
 
 
 def start_display() -> None:
@@ -46,15 +46,16 @@ def initialize_stars() -> None:
     picks k independent zip code items from our zip_list at random and uses them for our stars' starting points.
     :return: None
     """
+    global attractors
     indices = []
-    locs = []
+    attractors = []
     for i in range(k):
         index = random.randrange(len(zip_list))
         while index in indices:
             index = random.randrange(len(zip_list))
         indices.append(index)
-        locs.append((zip_list[index].x,zip_list[index].y))
-    dsp.update_attractor_locations(locs) # update the graphics about where the stars are.
+        attractors.append((zip_list[index].x,zip_list[index].y))
+    dsp.update_attractor_locations(attractors) # update the graphics about where the stars are.
 
 
 def do_update(dt: float) -> None:
@@ -65,8 +66,9 @@ def do_update(dt: float) -> None:
     :param dt: the time since the last time do_update() was called. (Unused in this program.)
     :return: None
     """
-    global steps
+    global steps, attractors
     print(f"{steps}")
+
     did_update = True  # We're going to check whether anything changed by the end of this method. Change this, if needed.
 
     # TODO #3: write the code that will do one cycle of the two steps of this algorithm, updating the attractors for

@@ -66,18 +66,19 @@ class Display(pyglet.window.Window):
         changing what we want to see.
         :return: the "Batch" set of things to draw.
         """
+        SCALE = 1.0
         # print("building batch.")
         batch = pyglet.graphics.Batch()
 
         # draw the texas map
         self.spr = pyglet.sprite.Sprite(self.texas_image, x=0, y=0, batch=batch, group=self.background_group)
-
+        self.spr.scale = SCALE
         # draw all the dots
         self.circles_list = []
 
         for i in range(len(self.city_colors)):
-            self.circles_list.append(shapes.Circle(x=self.city_coords[i][0],
-                                   y=self.city_coords[i][1],
+            self.circles_list.append(shapes.Circle(x=self.city_coords[i][0]*SCALE,
+                                   y=self.city_coords[i][1]*SCALE,
                                    radius=2,
                                    color = self.city_colors[i],
                                    batch=batch,
@@ -90,10 +91,10 @@ class Display(pyglet.window.Window):
         # Draws previous stars along the path (optional)
         for j in range(len(self.previous_attractors)):
             i = j % self.N
-            self.star_list.append(shapes.Star(x=self.previous_attractors[j][0],
-                                              y=self.previous_attractors[j][1],
-                                              outer_radius=20,
-                                              inner_radius=2,
+            self.star_list.append(shapes.Star(x=self.previous_attractors[j][0]*SCALE,
+                                              y=self.previous_attractors[j][1]*SCALE,
+                                              outer_radius=20*SCALE,
+                                              inner_radius=2*SCALE,
                                               num_spikes=5,
                                               color=GROUP_COLORS[i],
                                               batch=batch,
@@ -103,10 +104,10 @@ class Display(pyglet.window.Window):
         # Draws lines between the previous stops along the attractor's path
         for j in range(self.N, len(self.previous_attractors)):
             i = j % self.N
-            self.star_list.append(shapes.Line(x = self.previous_attractors[j-self.N][0],
-                                              y = self.previous_attractors[j-self.N][1],
-                                              x2 = self.previous_attractors[j][0],
-                                              y2 = self.previous_attractors[j][1],
+            self.star_list.append(shapes.Line(x = self.previous_attractors[j-self.N][0]*SCALE,
+                                              y = self.previous_attractors[j-self.N][1]*SCALE,
+                                              x2 = self.previous_attractors[j][0]*SCALE,
+                                              y2 = self.previous_attractors[j][1]*SCALE,
                                               thickness = 2,
                                               color = GROUP_COLORS[i],
                                               batch = batch,
@@ -115,10 +116,10 @@ class Display(pyglet.window.Window):
         # connects the last of the previous attractors to the current location of each attractor with a line
         if len(self.previous_attractors) > 0:
             for i in range(self.N):
-                self.star_list.append(shapes.Line(x = self.previous_attractors[-1-i][0],
-                                                  y = self.previous_attractors[-1-i][1],
-                                                  x2= self.current_attractors[-1-i][0],
-                                                  y2= self.current_attractors[-1-i][1],
+                self.star_list.append(shapes.Line(x = self.previous_attractors[-1-i][0]*SCALE,
+                                                  y = self.previous_attractors[-1-i][1]*SCALE,
+                                                  x2= self.current_attractors[-1-i][0]*SCALE,
+                                                  y2= self.current_attractors[-1-i][1]*SCALE,
                                                   thickness = 2,
                                                   color = GROUP_COLORS[self.N-1-i],
                                                   batch = batch,
@@ -127,10 +128,10 @@ class Display(pyglet.window.Window):
         # Now draw the current stars -- first the black outlines, then the fills.
         for i in range(self.N):
             #outline
-            self.star_list.append(shapes.Star(x=self.current_attractors[i][0],
-                                              y=self.current_attractors[i][1],
-                                              outer_radius=8,
-                                              inner_radius=5,
+            self.star_list.append(shapes.Star(x=self.current_attractors[i][0]*SCALE,
+                                              y=self.current_attractors[i][1]*SCALE,
+                                              outer_radius=8*SCALE,
+                                              inner_radius=5*SCALE,
                                               num_spikes=5,
                                               rotation=90,
                                               color=(0, 0, 0),
@@ -138,10 +139,10 @@ class Display(pyglet.window.Window):
                                               group=self.star_outline_group,
                                               ))
             # color fill
-            self.star_list.append(shapes.Star(x=self.current_attractors[i][0],
-                                              y=self.current_attractors[i][1],
-                                              outer_radius=5,
-                                              inner_radius=2,
+            self.star_list.append(shapes.Star(x=self.current_attractors[i][0]*SCALE,
+                                              y=self.current_attractors[i][1]*SCALE,
+                                              outer_radius=5*SCALE,
+                                              inner_radius=2*SCALE,
                                               num_spikes=5,
                                               rotation=90,
                                               color=GROUP_COLORS[i],
